@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil - GuildControl</title>
+    <!-- Biblioteca de ícones modernos -->
+    <link rel="stylesheet" href="https://cloudflare.com">
+    <style>
+        /* Configurações de cores futuristas e zeramento de margens */
+        :root {
+            --bg-principal: #0d0018;
+            --bg-card: #1b0030;
+            --bg-stat: #260040;
+            --roxo-principal: #8a2be2;
+            --roxo-hover: #a64dff;
+            --roxo-neon: #8b5cf6;
+            --azul-neon: #00d2ff;
+            --texto-claro: #ffffff;
+            --texto-mutado: #cfcfcf;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: var(--bg-principal);
+            /* Efeito de luzes degradê no fundo da tela */
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(92, 45, 145, 0.2) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(0, 210, 255, 0.1) 0%, transparent 40%);
+            color: var(--texto-claro);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        /* Estrutura principal com o brilho roxo flutuante */
+        .card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 0 25px rgba(157, 0, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        /* Cabeçalho do Usuário */
+        .perfil {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .foto {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8b5cf6, #d946ef);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 45px;
+            font-weight: bold;
+            box-shadow: 0 0 15px rgba(217, 70, 239, 0.4);
+        }
+
+        .info h1 {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .info p {
+            color: var(--texto-mutado);
+            margin-bottom: 5px;
+        }
+
+        .plano {
+            display: inline-block;
+            background: var(--roxo-principal);
+            padding: 8px 18px;
+            border-radius: 30px;
+            margin-top: 10px;
+            font-weight: bold;
+            box-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
+        }
+
+        /* Grade de Estatísticas */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin-top: 35px;
+        }
+
+        .stat {
+            background: var(--bg-stat);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid rgba(138, 43, 226, 0.1);
+            transition: transform 0.2s;
+        }
+
+        .stat:hover {
+            transform: translateY(-3px);
+            border-color: rgba(0, 210, 255, 0.3);
+        }
+
+        .stat h2 {
+            font-size: 32px;
+            color: #b26cff;
+            margin-bottom: 10px;
+        }
+
+        .stat p {
+            color: #ddd;
+        }
+
+        /* Grade de Botões do Perfil */
+        .botoes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-top: 35px;
+        }
+
+        button {
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            background: var(--roxo-principal);
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: .3s;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: var(--roxo-hover);
+            transform: translateY(-2px);
+        }
+
+        /* ==================== SEÇÃO DE PAGAMENTO INTERATIVA ==================== */
+        .secao-pagamento {
+            display: none; /* Inicia oculta para mostrar só o perfil primeiro */
+            animation: surgirTela 0.4s ease forwards;
+        }
+
+        @keyframes surgirTela {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .cabecalho-pagamento {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .cabecalho-pagamento h2 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #fff, var(--azul-neon));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .cabecalho-pagamento p {
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        .container-planos {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 35px;
+        }
+
+        /* Cards de escolha de taxa/tempo */
+        .cartao-plano {
+            background: rgba(38, 0, 64, 0.5);
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            border-radius: 18px;
+            padding: 25px;
+            width: 100%;
+            max-width: 360px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .cartao-plano.destaque {
+            border-color: var(--roxo-neon);
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.2);
+        }
+
+        .cartao-plano:hover {
+            transform: translateY(-4px);
+            border-color: var(--azul-neon);
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.2);
+        }
+
+        .plano-nome { font-size: 22px; font-weight: bold; margin-bottom: 4px; }
+        .plano-duracao { font-size: 12px; color: var(--azul-neon); text-transform: uppercase; font-weight: 600; margin-bottom: 15px; }
+        .plano-preco { font-size: 34px; font-weight: 800; margin-bottom: 20px; }
+        .plano-preco span { font-size: 14px; color: #aaa; font-weight: 500; }
+
+        .beneficios-lista { list-style: none; margin-bottom: 25px; flex-grow: 1; }
+        .beneficios-lista li { font-size: 14px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .beneficios-lista li i { color: var(--roxo-neon); }
+
+        /* Área do QR Code e Copia Chave */
+        .secao-checkout {
+            background: #090012;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 18px;
+            padding: 30px;
+            margin-top: 25px;
+            display: none;
+            animation: surgirTela 0.4s ease forwards;
+        }
+
+        .checkout-grid { display: flex; align-items: center; gap: 30px; flex-wrap: wrap; justify-content: center; }
+        .qrcode-container { background: white; padding: 12px; border-radius: 14px; flex-shrink: 0; }
+        .qrcode-container img { width: 140px; height: 140px; display: block; }
+        .checkout-info { flex-grow: 1; min-width: 260px; }
+        
+        .status-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.05); padding: 6px 12px; border-radius: 20px; font-size: 12px; color: #aaa; margin-bottom: 12px; }
+        .status-badge i { color: var(--azul-neon); animation: girarIcone 2s linear infinite; }
+        @keyframes girarIcone { 100% { transform: rotate(360deg); } }
+
+        .checkout-preco { font-size: 30px; font-weight: 800; margin-bottom: 15px; }
+        
+        .copiar-box { display: flex; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 6px; margin-bottom: 20px; }
+        .copiar-box input { background: transparent; border: none; color: white; padding: 0 10px; font-size: 13px; flex-grow: 1; outline: none; }
+        
+        .btn-voltar { background: #2a2a2a; margin-top: 20px; width: 100%; }
+        .btn-voltar:hover { background: #3a3a3a; }
+
+        /* Tela de Feedback de Sucesso */
+        .tela-sucesso { text-align: center; display: none; padding: 25px; animation: surgirTela 0.4s ease forwards; }
+        .icone-sucesso { width: 75px; height: 75px; background: rgba(16, 185, 129, 0.1); border: 2px solid #10b981; color: #10b981; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 34px; margin: 0 auto 20px auto; }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- BLOCO 1: PERFIL DO USUÁRIO -->
+        <div class="card" id="bloco-perfil">
+            <div class="perfil">
+                <div class="foto">CE</div>
+                <div class="info">
+                    <h1>Carlos Eduardo</h1>
+                    <p>@carlos0w4</p>
+                    <p>Guilda: Nome da Guilda</p>
+                    <p>Membro desde: Junho 2026</p>
+                    <span class="plano" id="tag-plano-usuario">Plano Mensal</span>
+                </div>
+            </div>
+
+            <div class="stats">
+                <div class="stat"><h2>1</h2><p>Guilda</p></div>
+                <div class="stat"><h2>14</h2><p>Membros</p></div>
+                <div class="stat"><h2>4</h2><p>Lines</p></div>
+                <div class="stat"><h2>12.500</h2><p>Pontos</p></div>
+            </div>
+
+            <div class="botoes">
+                <button>Editar Perfil</button>
+                <button>Alterar Senha</button>
+                <button onclick="irParaPagamento()">Gerenciar Plano</button>
+                <button style="background: #b91c1c;">Sair da Conta</button>
+            </div>
+        </div>
+
