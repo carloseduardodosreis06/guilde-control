@@ -4,4 +4,3 @@ flask-login
 qrcode
 pillow
 werkzeug
-gunicorn
